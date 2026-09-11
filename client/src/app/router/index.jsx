@@ -32,6 +32,8 @@ import DashboardLayout from '../../layouts/dashboard.layout.jsx';
 // ======================================================
 
 import Login from '../../pages/auth/login.jsx';
+import Register from '../../pages/auth/Register.jsx';
+import VerifyEmail from '../../pages/auth/verify-email.jsx';
 import ForgotPassword from '../../pages/auth/forgot-password.jsx';
 import ResetPassword from '../../pages/auth/reset-password.jsx';
 
@@ -302,7 +304,16 @@ const AppRouter = () => {
         <Route element={<PublicRoute />}>
   <Route element={<AuthLayout />}>
     <Route path="/login" element={<Login />} />
+    <Route path="/kayit" element={<Register />} />
   </Route>
+</Route>
+
+{/* E-posta doğrulama: oturum açık olsa da erişilebilir */}
+<Route element={<AuthLayout />}>
+  <Route
+    path="/verify-email"
+    element={<VerifyEmail />}
+  />
 </Route>
 
 {/* Şifre kurtarma: oturum açık olsa da erişilebilir */}

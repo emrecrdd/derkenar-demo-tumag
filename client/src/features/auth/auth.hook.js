@@ -63,6 +63,14 @@ const getLoginErrorMessage = (
     );
 
   if (
+    /e-posta.*doğrula|doğrulamanız gerekmektedir|e-posta adresinizi doğrulay/i.test(
+      rawMessage
+    )
+  ) {
+    return 'Giriş yapmadan önce e-posta adresinizi doğrulamanız gerekmektedir.';
+  }
+
+  if (
     status === 401 ||
     /e-posta veya şifre hatalı/i.test(
       rawMessage
@@ -72,7 +80,7 @@ const getLoginErrorMessage = (
   }
 
   if (
-    /kullanıcı hesabı aktif değil/i.test(
+    /kullanıcı hesabı aktif değil|hesabınız pasif durumda/i.test(
       rawMessage
     )
   ) {
@@ -114,7 +122,79 @@ const getLoginErrorMessage = (
   return 'Giriş işlemi tamamlanamadı. Lütfen tekrar deneyin.';
 };
 
+// ======================================================
+// REGISTER ERROR
+// ======================================================
 
+const getRegisterErrorMessage = (
+  error
+) => {
+  const status =
+    error?.response?.status;
+
+  const rawMessage =
+    getRawErrorMessage(
+      error
+    );
+
+  if (
+    /bu e-posta adresi ile kayıtlı|e-posta.*kayıtlı/i.test(
+      rawMessage
+    )
+  ) {
+    return 'Bu e-posta adresi ile kayıtlı bir kullanıcı bulunmaktadır.';
+  }
+
+  if (
+    /en az 12 karakter/i.test(
+      rawMessage
+    )
+  ) {
+    return 'Şifre en az 12 karakter olmalıdır.';
+  }
+
+  if (
+    /baro|sicil|ad|soyad|zorunlu|geçerli bir e-posta/i.test(
+      rawMessage
+    ) &&
+    !isTechnicalMessage(
+      rawMessage
+    )
+  ) {
+    return rawMessage;
+  }
+
+  if (
+    status === 429
+  ) {
+    return 'Kısa sürede çok fazla kayıt isteği yapıldı. Lütfen biraz sonra tekrar deneyin.';
+  }
+
+  if (
+    isNetworkError(
+      error
+    )
+  ) {
+    return 'Sunucuya bağlanılamadı. İnternet bağlantınızı kontrol edip tekrar deneyin.';
+  }
+
+  if (
+    status >= 500 ||
+    isTechnicalMessage(
+      rawMessage
+    )
+  ) {
+    return 'Kayıt işlemi şu anda tamamlanamıyor. Lütfen tekrar deneyin.';
+  }
+
+  if (
+    rawMessage
+  ) {
+    return rawMessage;
+  }
+
+  return 'Kayıt işlemi tamamlanamadı. Lütfen bilgilerinizi kontrol edip tekrar deneyin.';
+};
 
 const getPasswordChangeErrorMessage = (
   error
@@ -187,6 +267,37 @@ const getPasswordChangeErrorMessage = (
 };
 
 // ======================================================
+// REGISTER
+// ======================================================
+
+export const useRegister = () => {
+  return useMutation({
+    mutationFn: (
+      data
+    ) =>
+      authApi.register(
+        data
+      ),
+
+    onSuccess: () => {
+      toast.success(
+        'Kaydınız oluşturuldu. E-posta adresinize gönderilen doğrulama bağlantısını kullanın.'
+      );
+    },
+
+    onError: (
+      error
+    ) => {
+      toast.error(
+        getRegisterErrorMessage(
+          error
+        )
+      );
+    },
+  });
+};
+
+// ======================================================
 // LOGIN
 // ======================================================
 
@@ -217,9 +328,6 @@ export const useLogin = () => {
     },
   });
 };
-
-
-
 
 // ======================================================
 // PROFILE
