@@ -86,7 +86,9 @@ export const authValidation = {
       .withMessage(
         'Geçerli bir e-posta adresi giriniz'
       )
-      .normalizeEmail(),
+      .normalizeEmail({
+        gmail_remove_dots: false,
+      }),
 
     passwordValidation(
       'password',
@@ -146,7 +148,9 @@ export const authValidation = {
       .withMessage(
         'Geçerli bir e-posta adresi giriniz'
       )
-      .normalizeEmail(),
+      .normalizeEmail({
+        gmail_remove_dots: false,
+      }),
 
     body('password')
       .isString()
@@ -206,7 +210,9 @@ export const authValidation = {
       .withMessage(
         'Geçerli bir e-posta adresi giriniz'
       )
-      .normalizeEmail(),
+      .normalizeEmail({
+        gmail_remove_dots: false,
+      }),
   ],
 
   // ====================================================
