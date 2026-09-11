@@ -31,9 +31,9 @@ import DashboardLayout from '../../layouts/dashboard.layout.jsx';
 // AUTH
 // ======================================================
 
-import Login from '../../pages/auth/login.jsx';
+import Login from '../../pages/auth/Login.jsx';
 import Register from '../../pages/auth/Register.jsx';
-import VerifyEmail from '../../pages/auth/verify-email.jsx';
+import VerifyEmail from '../../pages/auth/VerifyEmail.jsx';
 import ForgotPassword from '../../pages/auth/forgot-password.jsx';
 import ResetPassword from '../../pages/auth/reset-password.jsx';
 
