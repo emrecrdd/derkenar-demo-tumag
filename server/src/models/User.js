@@ -93,6 +93,34 @@ class User extends Sequelize.Model {
             true,
         },
 
+        // ====================================================
+        // PROFESSIONAL / REGISTRATION INFO
+        // ====================================================
+
+        bar_association: {
+          type:
+            DataTypes.STRING,
+
+          allowNull:
+            true,
+        },
+
+        bar_registration_number: {
+          type:
+            DataTypes.STRING,
+
+          allowNull:
+            true,
+        },
+
+        registration_source: {
+          type:
+            DataTypes.STRING,
+
+          allowNull:
+            true,
+        },
+
         role: {
           type:
             DataTypes.ENUM(

@@ -24,6 +24,10 @@ import {
   emailService,
 } from '../../integrations/email.service.js';
 
+import {
+  ROLES,
+} from '../../constants/roles.js';
+
 // ======================================================
 // CONSTANTS
 // ======================================================
@@ -283,6 +287,186 @@ const validateTokenVersion = (
 
 export const authService = {
   // ====================================================
+  // REGISTER - TUMAG SELF REGISTRATION
+  // ====================================================
+
+  async register({
+    first_name,
+    last_name,
+    email,
+    password,
+    bar_association,
+    bar_registration_number,
+  }) {
+    const cleanEmail =
+      normalizeEmail(
+        email
+      );
+
+    const cleanFirstName =
+      String(
+        first_name || ''
+      ).trim();
+
+    const cleanLastName =
+      String(
+        last_name || ''
+      ).trim();
+
+    const cleanBarAssociation =
+      String(
+        bar_association || ''
+      ).trim();
+
+    const cleanBarRegistrationNumber =
+      String(
+        bar_registration_number || ''
+      ).trim();
+
+    if (
+      !cleanFirstName ||
+      !cleanLastName ||
+      !cleanEmail ||
+      !cleanBarAssociation ||
+      !cleanBarRegistrationNumber
+    ) {
+      throw new Error(
+        'Ad, soyad, e-posta, baro ve sicil numarası zorunludur'
+      );
+    }
+
+    validatePassword(
+      password
+    );
+
+    const existingUser =
+      await authRepository.findByEmail(
+        cleanEmail
+      );
+
+    if (
+      existingUser
+    ) {
+      throw new Error(
+        'Bu e-posta adresi ile kayıtlı bir kullanıcı bulunmaktadır'
+      );
+    }
+
+    const verificationToken =
+      crypto
+        .randomBytes(
+          32
+        )
+        .toString(
+          'hex'
+        );
+
+    const user =
+      await authRepository.create({
+        first_name:
+          cleanFirstName,
+
+        last_name:
+          cleanLastName,
+
+        email:
+          cleanEmail,
+
+        password,
+
+        role:
+          ROLES.LAWYER,
+
+        permissions:
+          {},
+
+        is_active:
+          true,
+
+        email_verified:
+          false,
+
+        bar_association:
+          cleanBarAssociation,
+
+        bar_registration_number:
+          cleanBarRegistrationNumber,
+
+        registration_source:
+          'TUMAG',
+      });
+
+    await authRepository.saveEmailVerificationToken(
+      user.id,
+      verificationToken
+    );
+
+    try {
+      await emailService.sendWelcomeEmail(
+        user,
+        verificationToken
+      );
+    } catch (
+      error
+    ) {
+      logger.error(
+        'Email verification email error:',
+        error
+      );
+    }
+
+    return authRepository.findById(
+      user.id
+    );
+  },
+
+  // ====================================================
+  // VERIFY EMAIL
+  // ====================================================
+
+  async verifyEmail(
+    token
+  ) {
+    if (
+      !token
+    ) {
+      throw new Error(
+        'E-posta doğrulama bağlantısı geçersiz'
+      );
+    }
+
+    const user =
+      await authRepository.findByEmailVerificationToken(
+        token
+      );
+
+    if (
+      !user
+    ) {
+      throw new Error(
+        'E-posta doğrulama bağlantısı geçersiz veya daha önce kullanılmış'
+      );
+    }
+
+    if (
+      user.is_active !==
+      true
+    ) {
+      throw new Error(
+        'Kullanıcı hesabı aktif değil'
+      );
+    }
+
+    await authRepository.markEmailVerified(
+      user.id
+    );
+
+    return authRepository.findById(
+      user.id
+    );
+  },
+
+  // ====================================================
   // LOGIN
   // ====================================================
 
@@ -351,6 +535,15 @@ export const authService = {
     ) {
       throw new Error(
         'Hesabınız pasif durumda. Büro yöneticinizle iletişime geçin.'
+      );
+    }
+
+    if (
+      user.email_verified !==
+      true
+    ) {
+      throw new Error(
+        'Giriş yapmadan önce e-posta adresinizi doğrulamanız gerekmektedir.'
       );
     }
 

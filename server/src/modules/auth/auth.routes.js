@@ -23,6 +23,30 @@ const router =
 // PUBLIC / TOKEN ROUTES
 // ======================================================
 
+// ====================================================
+// REGISTER - TUMAG SELF REGISTRATION
+// ====================================================
+
+router.post(
+  '/register',
+  validate(
+    authValidation.register
+  ),
+  authController.register
+);
+
+// ====================================================
+// VERIFY EMAIL
+// ====================================================
+
+router.post(
+  '/verify-email',
+  validate(
+    authValidation.verifyEmail
+  ),
+  authController.verifyEmail
+);
+
 router.post(
   '/login',
   validate(

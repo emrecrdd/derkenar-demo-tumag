@@ -181,6 +181,91 @@ export const authRepository = {
   },
 
   // ====================================================
+  // EMAIL VERIFICATION TOKEN
+  // ====================================================
+
+  /*
+   * Raw doğrulama tokenı DB'ye yazılmaz.
+   * Yalnızca SHA-256 hash saklanır.
+   */
+  saveEmailVerificationToken: (
+    userId,
+    token
+  ) => {
+    const tokenHash =
+      token
+        ? hashToken(
+            token
+          )
+        : null;
+
+    return User.update(
+      {
+        email_verification_token:
+          tokenHash,
+      },
+      {
+        where: {
+          id:
+            userId,
+        },
+      }
+    );
+  },
+
+  // ====================================================
+  // FIND BY EMAIL VERIFICATION TOKEN
+  // ====================================================
+
+  findByEmailVerificationToken: (
+    token
+  ) => {
+    if (
+      !token
+    ) {
+      return null;
+    }
+
+    const candidates =
+      getTokenCandidates(
+        token
+      );
+
+    return User.findOne({
+      where: {
+        email_verification_token: {
+          [Op.in]:
+            candidates,
+        },
+      },
+    });
+  },
+
+  // ====================================================
+  // MARK EMAIL VERIFIED
+  // ====================================================
+
+  markEmailVerified: (
+    userId
+  ) => {
+    return User.update(
+      {
+        email_verified:
+          true,
+
+        email_verification_token:
+          null,
+      },
+      {
+        where: {
+          id:
+            userId,
+        },
+      }
+    );
+  },
+
+  // ====================================================
   // REFRESH TOKEN
   // ====================================================
 
@@ -302,24 +387,6 @@ export const authRepository = {
   // ATOMIC REFRESH TOKEN ROTATION
   // ====================================================
 
-  /*
-   * Refresh işlemi sırasında:
-   *
-   * eski token hâlâ DB'deyse
-   *      ↓
-   * yeni token hashini yaz
-   *
-   * eski token artık yoksa
-   *      ↓
-   * hiçbir satırı değiştirme
-   *
-   * Böylece aynı refresh token ile eşzamanlı
-   * iki isteğin ikisinin de başarılı olması
-   * engellenebilir.
-   *
-   * Bir sonraki auth.service.js güncellemesinde
-   * bu fonksiyonu kullanacağız.
-   */
   rotateRefreshToken: async (
     userId,
     currentRefreshToken,
@@ -427,11 +494,6 @@ export const authRepository = {
         token
       );
 
-    /*
-     * Hem eski plaintext reset tokenlar
-     * hem yeni hashed tokenlar geçiş
-     * döneminde desteklenir.
-     */
     return User.findOne({
       where: {
         password_reset_token: {

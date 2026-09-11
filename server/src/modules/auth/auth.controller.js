@@ -132,6 +132,96 @@ const sanitizeUser = (
 
 export const authController = {
   // ====================================================
+  // REGISTER - TUMAG SELF REGISTRATION
+  // ====================================================
+
+  async register(
+    req,
+    res
+  ) {
+    try {
+      const user =
+        await authService.register(
+          req.body
+        );
+
+      return successResponse(
+        res,
+        sanitizeUser(
+          user
+        ),
+        'Kayıt başarılı. E-posta adresinize gönderilen doğrulama bağlantısını kullanarak hesabınızı etkinleştirin.',
+        201
+      );
+    } catch (
+      error
+    ) {
+      logger.error(
+        'Register error:',
+        error
+      );
+
+      return errorResponse(
+        res,
+        error.message ||
+          'Kayıt oluşturulamadı',
+        400
+      );
+    }
+  },
+
+  // ====================================================
+  // VERIFY EMAIL
+  // ====================================================
+
+  async verifyEmail(
+    req,
+    res
+  ) {
+    try {
+      const token =
+        req.body?.token ||
+        req.query?.token;
+
+      if (
+        !token
+      ) {
+        return errorResponse(
+          res,
+          'E-posta doğrulama tokenı gereklidir',
+          400
+        );
+      }
+
+      const user =
+        await authService.verifyEmail(
+          token
+        );
+
+      return successResponse(
+        res,
+        sanitizeUser(
+          user
+        ),
+        'E-posta adresiniz başarıyla doğrulandı'
+      );
+    } catch (
+      error
+    ) {
+      logger.error(
+        'Verify email error:',
+        error
+      );
+
+      return errorResponse(
+        res,
+        error.message ||
+          'E-posta doğrulanamadı',
+        400
+      );
+    }
+  },
+  // ====================================================
   // LOGIN
   // ====================================================
 

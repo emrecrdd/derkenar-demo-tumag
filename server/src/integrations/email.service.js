@@ -407,8 +407,14 @@ class EmailService {
     }
   }
 
-  async sendWelcomeEmail(user) {
-  if (!user?.email || !user?.email_verification_token) {
+  async sendWelcomeEmail(
+  user,
+  verificationToken
+) {
+  if (
+    !user?.email ||
+    !verificationToken
+  ) {
     throw new Error(
       'Hoş geldiniz e-postası için kullanıcı e-postası ve doğrulama tokenı zorunludur.'
     );
@@ -416,27 +422,47 @@ class EmailService {
 
   const verificationUrl =
     `${config.CLIENT_URL}/verify-email?token=${encodeURIComponent(
-      user.email_verification_token
+      verificationToken
     )}`;
 
   const templateData = {
-    title: "Derkenar'a Hoş Geldiniz",
-    greeting: `Merhaba ${user.first_name || 'Kullanıcı'},`,
+    title:
+      "Derkenar'a Hoş Geldiniz",
+
+    greeting:
+      `Merhaba ${user.first_name || 'Kullanıcı'},`,
+
     paragraphs: [
       "Derkenar Hukuk Bürosu Yönetim Sistemi'ne kaydınız başarıyla oluşturuldu.",
       'Hesabınızı etkinleştirmek için aşağıdaki bağlantıyı kullanabilirsiniz.',
     ],
+
     button: {
-      label: 'Hesabı Etkinleştir',
-      url: verificationUrl,
+      label:
+        'Hesabı Etkinleştir',
+
+      url:
+        verificationUrl,
     },
   };
 
   return this.sendEmail({
-    to: user.email,
-    subject: 'Derkenar hesabınızı etkinleştirin',
-    html: createEmailTemplate(templateData),
-    text: createPlainTextEmail(templateData),
+    to:
+      user.email,
+
+    subject:
+      'Derkenar hesabınızı etkinleştirin',
+
+    html:
+      createEmailTemplate(
+        templateData
+      ),
+
+    text:
+      createPlainTextEmail(
+        templateData
+      ),
+
     tags: [
       'welcome',
       'email-verification',
