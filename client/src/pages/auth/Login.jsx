@@ -246,6 +246,31 @@ const Login = () => {
     };
 
   // ======================================================
+  // API MESSAGE NORMALIZATION
+  // ======================================================
+
+  const normalizeApiMessage = (
+    value
+  ) =>
+    String(
+      value ||
+      ''
+    )
+      .normalize(
+        'NFD'
+      )
+      .replace(
+        /[\u0300-\u036f]/g,
+        ''
+      )
+      .replace(
+        /[ıİ]/g,
+        'i'
+      )
+      .toLowerCase()
+      .trim();
+
+  // ======================================================
   // SUBMIT
   // ======================================================
 
@@ -290,21 +315,38 @@ const Login = () => {
       ) {
         /*
          * Toast / genel API hata mesajını auth hook yönetir.
-         * Burada yalnızca kullanıcıya düzeltilebilir alan hatasını
-         * form üzerinde görünür hale getiriyoruz.
+         * Burada yalnızca form davranışını yönetiyoruz.
          */
+
         const message =
-          String(
-            error?.response
-              ?.data?.message ||
-            error?.message ||
-            ''
-          ).trim();
+          error?.response
+            ?.data?.message ||
+          error?.message ||
+          '';
+
+        const normalizedMessage =
+          normalizeApiMessage(
+            message
+          );
+
+        const isVerificationError =
+          normalizedMessage.includes(
+            'dogrulamaniz gerekmektedir'
+          ) ||
+          normalizedMessage.includes(
+            'e-posta adresinizi dogrulay'
+          ) ||
+          (
+            normalizedMessage.includes(
+              'e-posta'
+            ) &&
+            normalizedMessage.includes(
+              'dogrula'
+            )
+          );
 
         if (
-          /e-posta.*doğrula|doğrulamanız gerekmektedir|e-posta adresinizi doğrulay/i.test(
-            message
-          )
+          isVerificationError
         ) {
           setShowVerificationResend(
             true
@@ -313,10 +355,13 @@ const Login = () => {
           return;
         }
 
+        const isCredentialError =
+          normalizedMessage.includes(
+            'e-posta veya sifre hatali'
+          );
+
         if (
-          /e-posta veya şifre hatalı/i.test(
-            message
-          )
+          isCredentialError
         ) {
           const nextErrors = {
             password:
@@ -333,6 +378,10 @@ const Login = () => {
         }
       }
     };
+
+  // ======================================================
+  // RESEND VERIFICATION
+  // ======================================================
 
   const handleResendVerification =
     async () => {
@@ -377,36 +426,36 @@ const Login = () => {
 
       {/* HEADER */}
 
-     <div className="mb-8">
+      <div className="mb-8">
 
-  {/* BRAND */}
+        {/* BRAND */}
 
-<div className="mb-7">
-  <img
-    src="/derkenar-logo.png"
-    alt="Derkenar"
-    className="
-      h-auto
-      w-full
-      max-w-[300px]
-      object-contain
-      object-left
-    "
-  />
-</div>
+        <div className="mb-7">
+          <img
+            src="/derkenar-logo.png"
+            alt="Derkenar"
+            className="
+              h-auto
+              w-full
+              max-w-[300px]
+              object-contain
+              object-left
+            "
+          />
+        </div>
 
-  <p
-    className="
-      text-[10px]
-      font-bold
-      uppercase
-      tracking-[0.16em]
-      text-blue-600
-      dark:text-blue-400
-    "
-  >
-    Güvenli Giriş
-  </p>
+        <p
+          className="
+            text-[10px]
+            font-bold
+            uppercase
+            tracking-[0.16em]
+            text-blue-600
+            dark:text-blue-400
+          "
+        >
+          Güvenli Giriş
+        </p>
 
         <h2
           className="
@@ -755,6 +804,8 @@ const Login = () => {
         </div>
 
       </form>
+
+      {/* VERIFICATION RESEND */}
 
       {showVerificationResend && (
         <div
