@@ -470,6 +470,72 @@ class EmailService {
   });
 }
   
+  async sendVerificationEmail(
+    user,
+    verificationToken
+  ) {
+    if (
+      !user?.email ||
+      !verificationToken
+    ) {
+      throw new Error(
+        'Doğrulama e-postası için kullanıcı e-postası ve doğrulama tokenı zorunludur.'
+      );
+    }
+
+    const verificationUrl =
+      `${config.CLIENT_URL}/verify-email?token=${encodeURIComponent(
+        verificationToken
+      )}`;
+
+    const templateData = {
+      title:
+        'E-posta Adresinizi Doğrulayın',
+
+      greeting:
+        `Merhaba ${user.first_name || 'Kullanıcı'},`,
+
+      paragraphs: [
+        'Derkenar hesabınız için yeni bir e-posta doğrulama bağlantısı oluşturuldu.',
+        'Hesabınızı etkinleştirmek için aşağıdaki bağlantıyı kullanabilirsiniz.',
+      ],
+
+      warning:
+        'Bu bağlantı 1 saat boyunca geçerlidir. Bu talebi siz oluşturmadıysanız bu e-postayı yok sayabilirsiniz.',
+
+      button: {
+        label:
+          'E-posta Adresimi Doğrula',
+
+        url:
+          verificationUrl,
+      },
+    };
+
+    return this.sendEmail({
+      to:
+        user.email,
+
+      subject:
+        'Derkenar e-posta doğrulama bağlantısı',
+
+      html:
+        createEmailTemplate(
+          templateData
+        ),
+
+      text:
+        createPlainTextEmail(
+          templateData
+        ),
+
+      tags: [
+        'email-verification',
+        'verification-resend',
+      ],
+    });
+  }
+
   async sendPasswordResetEmail(user, token) {
   if (!user?.email || !token) {
     throw new Error(

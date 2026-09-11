@@ -23,10 +23,6 @@ const router =
 // PUBLIC / TOKEN ROUTES
 // ======================================================
 
-// ====================================================
-// REGISTER - TUMAG SELF REGISTRATION
-// ====================================================
-
 router.post(
   '/register',
   validate(
@@ -35,16 +31,20 @@ router.post(
   authController.register
 );
 
-// ====================================================
-// VERIFY EMAIL
-// ====================================================
-
 router.post(
   '/verify-email',
   validate(
     authValidation.verifyEmail
   ),
   authController.verifyEmail
+);
+
+router.post(
+  '/resend-verification',
+  validate(
+    authValidation.resendVerification
+  ),
+  authController.resendVerification
 );
 
 router.post(
@@ -60,12 +60,6 @@ router.post(
   authController.refreshToken
 );
 
-/*
- * Logout'u authenticate arkasına koymuyoruz.
- *
- * Access token süresi dolmuş olsa bile kullanıcı
- * refresh token üzerinden oturumu kapatabilmeli.
- */
 router.post(
   '/logout',
   authController.logout

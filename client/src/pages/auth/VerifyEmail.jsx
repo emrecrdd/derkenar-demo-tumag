@@ -103,6 +103,14 @@ const VerifyEmail = () => {
             );
 
             if (
+              /süresi dolmuş/i.test(
+                rawMessage
+              )
+            ) {
+              setMessage(
+                'Bu doğrulama bağlantısının süresi dolmuş. Giriş ekranından yeni bir doğrulama bağlantısı isteyebilirsiniz.'
+              );
+            } else if (
               /daha önce kullanılmış/i.test(
                 rawMessage
               )

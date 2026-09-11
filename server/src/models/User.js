@@ -19,10 +19,8 @@ class User extends Sequelize.Model {
         id: {
           type:
             DataTypes.UUID,
-
           defaultValue:
             DataTypes.UUIDV4,
-
           primaryKey:
             true,
         },
@@ -30,27 +28,11 @@ class User extends Sequelize.Model {
         email: {
           type:
             DataTypes.STRING,
-
           allowNull:
             false,
-
-          /*
-           * unique:true KULLANMIYORUZ.
-           *
-           * Uygulama global paranoid:true kullandığı için
-           * kullanıcı silindiğinde kayıt DB'de kalır.
-           *
-           * E-posta benzersizliği migration tarafında:
-           *
-           * WHERE deleted_at IS NULL
-           *
-           * koşullu partial unique index ile sağlanır.
-           */
-
           validate: {
             isEmail:
               true,
-
             notEmpty:
               true,
           },
@@ -59,10 +41,8 @@ class User extends Sequelize.Model {
         password: {
           type:
             DataTypes.STRING,
-
           allowNull:
             false,
-
           validate: {
             notEmpty:
               true,
@@ -72,7 +52,6 @@ class User extends Sequelize.Model {
         first_name: {
           type:
             DataTypes.STRING,
-
           allowNull:
             false,
         },
@@ -80,7 +59,6 @@ class User extends Sequelize.Model {
         last_name: {
           type:
             DataTypes.STRING,
-
           allowNull:
             false,
         },
@@ -88,19 +66,13 @@ class User extends Sequelize.Model {
         phone: {
           type:
             DataTypes.STRING,
-
           allowNull:
             true,
         },
 
-        // ====================================================
-        // PROFESSIONAL / REGISTRATION INFO
-        // ====================================================
-
         bar_association: {
           type:
             DataTypes.STRING,
-
           allowNull:
             true,
         },
@@ -108,7 +80,6 @@ class User extends Sequelize.Model {
         bar_registration_number: {
           type:
             DataTypes.STRING,
-
           allowNull:
             true,
         },
@@ -116,7 +87,6 @@ class User extends Sequelize.Model {
         registration_source: {
           type:
             DataTypes.STRING,
-
           allowNull:
             true,
         },
@@ -128,25 +98,17 @@ class User extends Sequelize.Model {
                 ROLES
               )
             ),
-
           allowNull:
             false,
-
           defaultValue:
             ROLES.INTERN,
         },
 
-        // ====================================================
-        // USER-SPECIFIC PERMISSION OVERRIDES
-        // ====================================================
-
         permissions: {
           type:
             DataTypes.JSONB,
-
           allowNull:
             false,
-
           defaultValue:
             {},
         },
@@ -154,28 +116,19 @@ class User extends Sequelize.Model {
         is_active: {
           type:
             DataTypes.BOOLEAN,
-
           allowNull:
             false,
-
           defaultValue:
             true,
         },
 
-        // ====================================================
-        // TOKEN VERSION
-        // ====================================================
-
         token_version: {
           type:
             DataTypes.INTEGER,
-
           allowNull:
             false,
-
           defaultValue:
             0,
-
           validate: {
             min:
               0,
@@ -185,7 +138,6 @@ class User extends Sequelize.Model {
         last_login: {
           type:
             DataTypes.DATE,
-
           allowNull:
             true,
         },
@@ -193,7 +145,6 @@ class User extends Sequelize.Model {
         refresh_token: {
           type:
             DataTypes.TEXT,
-
           allowNull:
             true,
         },
@@ -201,7 +152,6 @@ class User extends Sequelize.Model {
         avatar: {
           type:
             DataTypes.STRING,
-
           allowNull:
             true,
         },
@@ -209,7 +159,6 @@ class User extends Sequelize.Model {
         title: {
           type:
             DataTypes.STRING,
-
           allowNull:
             true,
         },
@@ -217,7 +166,6 @@ class User extends Sequelize.Model {
         bio: {
           type:
             DataTypes.TEXT,
-
           allowNull:
             true,
         },
@@ -225,10 +173,8 @@ class User extends Sequelize.Model {
         email_verified: {
           type:
             DataTypes.BOOLEAN,
-
           allowNull:
             false,
-
           defaultValue:
             false,
         },
@@ -236,7 +182,13 @@ class User extends Sequelize.Model {
         email_verification_token: {
           type:
             DataTypes.STRING,
+          allowNull:
+            true,
+        },
 
+        email_verification_expires: {
+          type:
+            DataTypes.DATE,
           allowNull:
             true,
         },
@@ -244,7 +196,6 @@ class User extends Sequelize.Model {
         password_reset_token: {
           type:
             DataTypes.STRING,
-
           allowNull:
             true,
         },
@@ -252,22 +203,15 @@ class User extends Sequelize.Model {
         password_reset_expires: {
           type:
             DataTypes.DATE,
-
           allowNull:
             true,
         },
       },
       {
         sequelize,
-
         tableName:
           'users',
-
         hooks: {
-          // ================================================
-          // NORMALIZE EMAIL
-          // ================================================
-
           beforeValidate: (
             user
           ) => {
@@ -282,10 +226,6 @@ class User extends Sequelize.Model {
                   .toLowerCase();
             }
           },
-
-          // ================================================
-          // PASSWORD HASH
-          // ================================================
 
           beforeCreate:
             async (
@@ -336,10 +276,6 @@ class User extends Sequelize.Model {
     return User;
   }
 
-  // ======================================================
-  // PASSWORD CHECK
-  // ======================================================
-
   async comparePassword(
     password
   ) {
@@ -363,10 +299,6 @@ class User extends Sequelize.Model {
     );
   }
 
-  // ======================================================
-  // SAFE SERIALIZATION
-  // ======================================================
-
   toJSON() {
     const values = {
       ...this.get(),
@@ -375,6 +307,7 @@ class User extends Sequelize.Model {
     delete values.password;
     delete values.refresh_token;
     delete values.email_verification_token;
+    delete values.email_verification_expires;
     delete values.password_reset_token;
     delete values.password_reset_expires;
     delete values.token_version;

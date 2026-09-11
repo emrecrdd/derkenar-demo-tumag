@@ -240,6 +240,11 @@ const Register = () => {
             state: {
               registrationSuccess:
                 true,
+
+              registrationEmail:
+                formData.email
+                  .trim()
+                  .toLowerCase(),
             },
           }
         );

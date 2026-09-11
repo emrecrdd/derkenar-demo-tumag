@@ -117,6 +117,8 @@ const sanitizeUser = (
 
   delete plainUser.email_verification_token;
 
+  delete plainUser.email_verification_expires;
+
   delete plainUser.password_reset_token;
 
   delete plainUser.password_reset_expires;
@@ -221,6 +223,51 @@ export const authController = {
       );
     }
   },
+  // ====================================================
+  // RESEND EMAIL VERIFICATION
+  // ====================================================
+
+  async resendVerification(
+    req,
+    res
+  ) {
+    const genericMessage =
+      'Eğer bu e-posta adresine ait doğrulanmamış bir hesap varsa doğrulama bağlantısı gönderilecektir.';
+
+    try {
+      const {
+        email,
+      } = req.body;
+
+      await authService.resendVerificationEmail(
+        email
+      );
+
+      return successResponse(
+        res,
+        null,
+        genericMessage
+      );
+    } catch (
+      error
+    ) {
+      logger.error(
+        'Resend verification error:',
+        error
+      );
+
+      /*
+       * Account enumeration engeli:
+       * dışarı her durumda aynı cevap döner.
+       */
+      return successResponse(
+        res,
+        null,
+        genericMessage
+      );
+    }
+  },
+
   // ====================================================
   // LOGIN
   // ====================================================

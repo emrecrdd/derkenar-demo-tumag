@@ -11,10 +11,6 @@ import {
 
 import toast from 'react-hot-toast';
 
-// ======================================================
-// ERROR HELPERS
-// ======================================================
-
 const getRawErrorMessage = (
   error
 ) => {
@@ -121,10 +117,6 @@ const getLoginErrorMessage = (
 
   return 'Giriş işlemi tamamlanamadı. Lütfen tekrar deneyin.';
 };
-
-// ======================================================
-// REGISTER ERROR
-// ======================================================
 
 const getRegisterErrorMessage = (
   error
@@ -266,10 +258,6 @@ const getPasswordChangeErrorMessage = (
   return 'Şifre değiştirilemedi. Lütfen bilgilerinizi kontrol edip tekrar deneyin.';
 };
 
-// ======================================================
-// REGISTER
-// ======================================================
-
 export const useRegister = () => {
   return useMutation({
     mutationFn: (
@@ -297,9 +285,41 @@ export const useRegister = () => {
   });
 };
 
-// ======================================================
-// LOGIN
-// ======================================================
+export const useResendVerification = () => {
+  return useMutation({
+    mutationFn: (
+      email
+    ) =>
+      authApi.resendVerification(
+        email
+      ),
+
+    onSuccess: () => {
+      toast.success(
+        'Eğer hesabınız doğrulanmayı bekliyorsa yeni doğrulama bağlantısı e-posta adresinize gönderildi.'
+      );
+    },
+
+    onError: (
+      error
+    ) => {
+      if (
+        isNetworkError(
+          error
+        )
+      ) {
+        toast.error(
+          'Sunucuya bağlanılamadı. İnternet bağlantınızı kontrol edip tekrar deneyin.'
+        );
+        return;
+      }
+
+      toast.error(
+        'Doğrulama e-postası şu anda gönderilemiyor. Lütfen tekrar deneyin.'
+      );
+    },
+  });
+};
 
 export const useLogin = () => {
   const {
@@ -329,27 +349,17 @@ export const useLogin = () => {
   });
 };
 
-// ======================================================
-// PROFILE
-// ======================================================
-
 export const useProfile = () => {
   return useQuery({
     queryKey: [
       'profile',
     ],
-
     queryFn: () =>
       authApi.getProfile(),
-
     staleTime:
       5 * 60 * 1000,
   });
 };
-
-// ======================================================
-// CHANGE PASSWORD
-// ======================================================
 
 export const useChangePassword = () => {
   return useMutation({

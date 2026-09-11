@@ -2,10 +2,6 @@ import {
   body,
 } from 'express-validator';
 
-// ======================================================
-// PASSWORD VALIDATION
-// ======================================================
-
 const passwordValidation = (
   field,
   label = 'Şifre'
@@ -41,16 +37,7 @@ const passwordValidation = (
       }
     );
 
-// ======================================================
-// VALIDATIONS
-// ======================================================
-
 export const authValidation = {
-
-  // ====================================================
-  // REGISTER - TUMAG SELF REGISTRATION
-  // ====================================================
-
   register: [
     body('first_name')
       .trim()
@@ -124,10 +111,6 @@ export const authValidation = {
       ),
   ],
 
-  // ====================================================
-  // VERIFY EMAIL
-  // ====================================================
-
   verifyEmail: [
     body('token')
       .isString()
@@ -137,9 +120,17 @@ export const authValidation = {
       ),
   ],
 
-  // ====================================================
-  // LOGIN
-  // ====================================================
+  resendVerification: [
+    body('email')
+      .trim()
+      .isEmail()
+      .withMessage(
+        'Geçerli bir e-posta adresi giriniz'
+      )
+      .normalizeEmail({
+        gmail_remove_dots: false,
+      }),
+  ],
 
   login: [
     body('email')
@@ -159,10 +150,6 @@ export const authValidation = {
         'Şifre gereklidir'
       ),
   ],
-
-  // ====================================================
-  // CHANGE PASSWORD
-  // ====================================================
 
   changePassword: [
     body('currentPassword')
@@ -199,10 +186,6 @@ export const authValidation = {
       ),
   ],
 
-  // ====================================================
-  // FORGOT PASSWORD
-  // ====================================================
-
   forgotPassword: [
     body('email')
       .trim()
@@ -214,10 +197,6 @@ export const authValidation = {
         gmail_remove_dots: false,
       }),
   ],
-
-  // ====================================================
-  // RESET PASSWORD
-  // ====================================================
 
   resetPassword: [
     body('token')

@@ -1,10 +1,12 @@
 import {
+  useEffect,
   useRef,
   useState,
 } from 'react';
 
 import {
   Link,
+  useLocation,
   useNavigate,
 } from 'react-router-dom';
 
@@ -18,6 +20,7 @@ import {
 
 import {
   useLogin,
+  useResendVerification,
 } from '../../features/auth/auth.hook.js';
 
 import Button from '../../components/ui/Button.jsx';
@@ -30,8 +33,14 @@ const Login = () => {
   const navigate =
     useNavigate();
 
+  const location =
+    useLocation();
+
   const login =
     useLogin();
+
+  const resendVerification =
+    useResendVerification();
 
   const emailInputRef =
     useRef(null);
@@ -50,15 +59,72 @@ const Login = () => {
     setFormData,
   ] =
     useState({
-      email: '',
+      email:
+        location.state
+          ?.registrationEmail ||
+        '',
+
       password: '',
     });
+
+  const [
+    showVerificationResend,
+    setShowVerificationResend,
+  ] =
+    useState(
+      Boolean(
+        location.state
+          ?.registrationSuccess
+      )
+    );
+
+  const [
+    resendCooldown,
+    setResendCooldown,
+  ] =
+    useState(0);
 
   const [
     errors,
     setErrors,
   ] =
     useState({});
+
+  useEffect(
+    () => {
+      if (
+        resendCooldown <=
+        0
+      ) {
+        return undefined;
+      }
+
+      const timer =
+        window.setInterval(
+          () => {
+            setResendCooldown(
+              (
+                current
+              ) =>
+                Math.max(
+                  0,
+                  current - 1
+                )
+            );
+          },
+          1000
+        );
+
+      return () => {
+        window.clearInterval(
+          timer
+        );
+      };
+    },
+    [
+      resendCooldown,
+    ]
+  );
 
   // ======================================================
   // CHANGE
@@ -236,6 +302,18 @@ const Login = () => {
           ).trim();
 
         if (
+          /e-posta.*doğrula|doğrulamanız gerekmektedir|e-posta adresinizi doğrulay/i.test(
+            message
+          )
+        ) {
+          setShowVerificationResend(
+            true
+          );
+
+          return;
+        }
+
+        if (
           /e-posta veya şifre hatalı/i.test(
             message
           )
@@ -253,6 +331,40 @@ const Login = () => {
             nextErrors
           );
         }
+      }
+    };
+
+  const handleResendVerification =
+    async () => {
+      const email =
+        formData.email
+          .trim()
+          .toLowerCase();
+
+      if (
+        !email ||
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+          email
+        ) ||
+        resendVerification.isPending ||
+        resendCooldown >
+          0
+      ) {
+        return;
+      }
+
+      try {
+        await resendVerification.mutateAsync(
+          email
+        );
+
+        setResendCooldown(
+          60
+        );
+      } catch {
+        /*
+         * Toast hook tarafından gösteriliyor.
+         */
       }
     };
 
@@ -643,6 +755,64 @@ const Login = () => {
         </div>
 
       </form>
+
+      {showVerificationResend && (
+        <div
+          className="
+            mt-5
+            rounded-xl
+            border
+            border-blue-200
+            bg-blue-50
+            p-4
+            dark:border-blue-500/20
+            dark:bg-blue-500/[0.07]
+          "
+        >
+          <p
+            className="
+              text-sm
+              leading-6
+              text-gray-700
+              dark:text-slate-300
+            "
+          >
+            Hesabınızı kullanabilmek için e-posta adresinizi
+            doğrulamanız gerekiyor. Mesaj gelmediyse yeni bir
+            doğrulama bağlantısı gönderebilirsiniz.
+          </p>
+
+          <button
+            type="button"
+            onClick={
+              handleResendVerification
+            }
+            disabled={
+              resendVerification.isPending ||
+              resendCooldown > 0 ||
+              !formData.email.trim()
+            }
+            className="
+              mt-3
+              text-sm
+              font-semibold
+              text-blue-600
+              transition
+              hover:text-blue-700
+              disabled:cursor-not-allowed
+              disabled:opacity-50
+              dark:text-blue-400
+              dark:hover:text-blue-300
+            "
+          >
+            {resendVerification.isPending
+              ? 'Gönderiliyor...'
+              : resendCooldown > 0
+                ? `Tekrar göndermek için ${resendCooldown} sn`
+                : 'Doğrulama e-postasını tekrar gönder'}
+          </button>
+        </div>
+      )}
 
       {/* FOOTER */}
 

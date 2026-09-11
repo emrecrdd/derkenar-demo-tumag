@@ -1,11 +1,6 @@
 import axios from '../../app/config/axios.js';
 
 const authApi = {
-
-  // ====================================================
-  // REGISTER
-  // ====================================================
-
   register: (
     data
   ) => {
@@ -14,10 +9,6 @@ const authApi = {
       data
     );
   },
-
-  // ====================================================
-  // VERIFY EMAIL
-  // ====================================================
 
   verifyEmail: (
     token
@@ -30,9 +21,16 @@ const authApi = {
     );
   },
 
-  // ====================================================
-  // LOGIN
-  // ====================================================
+  resendVerification: (
+    email
+  ) => {
+    return axios.post(
+      '/auth/resend-verification',
+      {
+        email,
+      }
+    );
+  },
 
   login: (
     email,
@@ -45,31 +43,13 @@ const authApi = {
         password,
       },
       {
-        /*
-         * Backend refreshToken'ı HttpOnly cookie
-         * olarak set ediyor.
-         *
-         * Frontend ve backend farklı origin olduğu
-         * için credentials açık olmalı.
-         */
         withCredentials:
           true,
       }
     );
   },
 
-  // ====================================================
-  // REFRESH TOKEN
-  // ====================================================
-
   refreshToken: () => {
-    /*
-     * Refresh token artık JavaScript tarafından
-     * okunmaz veya request body'ye gönderilmez.
-     *
-     * Browser HttpOnly refreshToken cookie'sini
-     * otomatik olarak gönderir.
-     */
     return axios.post(
       '/auth/refresh-token',
       null,
@@ -80,17 +60,7 @@ const authApi = {
     );
   },
 
-  // ====================================================
-  // LOGOUT
-  // ====================================================
-
   logout: () => {
-    /*
-     * Logout için refresh token body'ye
-     * gönderilmez.
-     *
-     * Backend HttpOnly cookie'den okuyacak.
-     */
     return axios.post(
       '/auth/logout',
       null,
@@ -101,19 +71,11 @@ const authApi = {
     );
   },
 
-  // ====================================================
-  // PROFILE
-  // ====================================================
-
   getProfile: () => {
     return axios.get(
       '/auth/profile'
     );
   },
-
-  // ====================================================
-  // UPDATE PROFILE
-  // ====================================================
 
   updateProfile: (
     data
@@ -124,10 +86,6 @@ const authApi = {
     );
   },
 
-  // ====================================================
-  // CHANGE PASSWORD
-  // ====================================================
-
   changePassword: (
     data
   ) => {
@@ -136,10 +94,6 @@ const authApi = {
       data
     );
   },
-
-  // ====================================================
-  // FORGOT PASSWORD
-  // ====================================================
 
   forgotPassword: (
     email
@@ -151,10 +105,6 @@ const authApi = {
       }
     );
   },
-
-  // ====================================================
-  // RESET PASSWORD
-  // ====================================================
 
   resetPassword: (
     token,
@@ -168,7 +118,6 @@ const authApi = {
       }
     );
   },
-
 };
 
 export default authApi;

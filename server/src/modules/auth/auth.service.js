@@ -38,6 +38,12 @@ const MIN_PASSWORD_LENGTH =
 const RESET_TOKEN_EXPIRY_MS =
   60 * 60 * 1000;
 
+const EMAIL_VERIFICATION_TOKEN_EXPIRY_MS =
+  60 * 60 * 1000;
+
+const EMAIL_VERIFICATION_RESEND_COOLDOWN_MS =
+  60 * 1000;
+
 const DUMMY_PASSWORD_HASH =
   bcrypt.hashSync(
     'derkenar-invalid-login-placeholder',
@@ -361,6 +367,12 @@ export const authService = {
           'hex'
         );
 
+    const verificationExpires =
+      new Date(
+        Date.now() +
+          EMAIL_VERIFICATION_TOKEN_EXPIRY_MS
+      );
+
     const user =
       await authRepository.create({
         first_name:
@@ -398,7 +410,8 @@ export const authService = {
 
     await authRepository.saveEmailVerificationToken(
       user.id,
-      verificationToken
+      verificationToken,
+      verificationExpires
     );
 
     try {
@@ -413,6 +426,19 @@ export const authService = {
         'Email verification email error:',
         error
       );
+
+      try {
+        await authRepository.clearEmailVerificationToken(
+          user.id
+        );
+      } catch (
+        cleanupError
+      ) {
+        logger.warn(
+          'Failed verification-token cleanup after email error:',
+          cleanupError
+        );
+      }
     }
 
     return authRepository.findById(
@@ -457,6 +483,30 @@ export const authService = {
       );
     }
 
+    const expiresAt =
+      user.email_verification_expires
+        ? new Date(
+            user.email_verification_expires
+          )
+        : null;
+
+    if (
+      !expiresAt ||
+      Number.isNaN(
+        expiresAt.getTime()
+      ) ||
+      expiresAt <=
+        new Date()
+    ) {
+      await authRepository.clearEmailVerificationToken(
+        user.id
+      );
+
+      throw new Error(
+        'E-posta doğrulama bağlantısının süresi dolmuş'
+      );
+    }
+
     await authRepository.markEmailVerified(
       user.id
     );
@@ -464,6 +514,133 @@ export const authService = {
     return authRepository.findById(
       user.id
     );
+  },
+
+  // ====================================================
+  // RESEND EMAIL VERIFICATION
+  // ====================================================
+
+  async resendVerificationEmail(
+    email
+  ) {
+    const cleanEmail =
+      normalizeEmail(
+        email
+      );
+
+    if (
+      !cleanEmail
+    ) {
+      return;
+    }
+
+    const user =
+      await authRepository.findByEmail(
+        cleanEmail
+      );
+
+    /*
+     * ACCOUNT ENUMERATION KORUMASI
+     *
+     * Kullanıcı bulunamadığında, pasif olduğunda veya
+     * zaten doğrulanmış olduğunda sessizce çıkılır.
+     */
+    if (
+      !user ||
+      user.is_active !==
+        true ||
+      user.email_verified ===
+        true
+    ) {
+      return;
+    }
+
+    // ================================================
+    // RESEND COOLDOWN
+    // ================================================
+
+    if (
+      user.email_verification_expires
+    ) {
+      const expiresAt =
+        new Date(
+          user.email_verification_expires
+        ).getTime();
+
+      if (
+        Number.isFinite(
+          expiresAt
+        )
+      ) {
+        const issuedAt =
+          expiresAt -
+          EMAIL_VERIFICATION_TOKEN_EXPIRY_MS;
+
+        const elapsed =
+          Date.now() -
+          issuedAt;
+
+        if (
+          elapsed >= 0 &&
+          elapsed <
+            EMAIL_VERIFICATION_RESEND_COOLDOWN_MS
+        ) {
+          return;
+        }
+      }
+    }
+
+    // ================================================
+    // NEW TOKEN
+    // ================================================
+
+    const verificationToken =
+      crypto
+        .randomBytes(
+          32
+        )
+        .toString(
+          'hex'
+        );
+
+    const verificationExpires =
+      new Date(
+        Date.now() +
+          EMAIL_VERIFICATION_TOKEN_EXPIRY_MS
+      );
+
+    await authRepository.saveEmailVerificationToken(
+      user.id,
+      verificationToken,
+      verificationExpires
+    );
+
+    try {
+      await emailService.sendVerificationEmail(
+        user,
+        verificationToken
+      );
+    } catch (
+      error
+    ) {
+      logger.error(
+        'Email verification resend error:',
+        error
+      );
+
+      try {
+        await authRepository.clearEmailVerificationToken(
+          user.id
+        );
+      } catch (
+        cleanupError
+      ) {
+        logger.warn(
+          'Failed resend verification-token cleanup:',
+          cleanupError
+        );
+      }
+    }
   },
 
   // ====================================================
