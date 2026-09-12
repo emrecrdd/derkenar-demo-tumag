@@ -34,6 +34,7 @@ import DashboardLayout from '../../layouts/dashboard.layout.jsx';
 import Login from '../../pages/auth/Login.jsx';
 import Register from '../../pages/auth/Register.jsx';
 import VerifyEmail from '../../pages/auth/VerifyEmail.jsx';
+import TumagLanding from '../../pages/TumagLanding.jsx';
 import ForgotPassword from '../../pages/auth/forgot-password.jsx';
 import ResetPassword from '../../pages/auth/reset-password.jsx';
 
@@ -300,7 +301,10 @@ const AppRouter = () => {
           PUBLIC
       ================================================== */}
 
-      
+      <Route
+  path="/tumag"
+  element={<TumagLanding />}
+/>
         <Route element={<PublicRoute />}>
   <Route element={<AuthLayout />}>
     <Route path="/login" element={<Login />} />
