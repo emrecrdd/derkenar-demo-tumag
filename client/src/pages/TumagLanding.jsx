@@ -146,16 +146,16 @@ const TumagLanding = () => {
 
           {/* NAV */}
 
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+          <div className="flex items-center">
+            <div className="flex min-w-0 items-center gap-3 sm:gap-5">
               <Link
                 to="/"
-                className="flex shrink-0 items-center"
+                className="flex h-14 items-center justify-center"
               >
                 <img
                   src="/favicon.svg"
                   alt="Derkenar"
-                  className="h-auto w-[150px] object-contain sm:w-[190px]"
+                  className="h-10 w-auto max-w-[190px] object-contain"
                 />
               </Link>
 
@@ -163,69 +163,13 @@ const TumagLanding = () => {
                 ×
               </span>
 
-              <div
-                className="
-                  flex
-                  h-12
-                  w-12
-                  shrink-0
-                  items-center
-                  justify-center
-                  overflow-hidden
-                  rounded-xl
-                  border
-                  border-white/10
-                  bg-white
-                  p-1
-                  shadow-lg
-                  shadow-black/10
-                  sm:h-14
-                  sm:w-14
-                "
-              >
+              <div className="flex h-14 items-center justify-center">
                 <img
                   src="/tumag/images.jfif"
                   alt="TÜMAG"
-                  className="h-full w-full object-contain"
+                  className="h-10 w-auto max-w-[190px] object-contain"
                 />
               </div>
-
-              <div className="hidden min-w-0 sm:block">
-                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">
-                  TÜMAG × DERKENAR
-                </p>
-                <p className="mt-0.5 text-xs font-medium text-slate-300">
-                  Üyelere özel avantaj
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 sm:gap-3">
-             
-
-              <Link
-                to="/kayit"
-                className="
-                  inline-flex
-                  items-center
-                  justify-center
-                  gap-2
-                  rounded-lg
-                  bg-blue-600
-                  px-4
-                  py-2.5
-                  text-sm
-                  font-semibold
-                  text-white
-                  shadow-lg
-                  shadow-blue-600/20
-                  transition
-                  hover:bg-blue-500
-                "
-              >
-                Kayıt Ol
-                <ArrowRight size={16} />
-              </Link>
             </div>
           </div>
 
@@ -1519,7 +1463,7 @@ const TumagLanding = () => {
                   "
                 >
                   <img
-                    src="/images.jfif"
+                    src="/tumag/images.jfif"
                     alt="TÜMAG"
                     className="h-full w-full object-contain"
                   />
