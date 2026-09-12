@@ -184,7 +184,7 @@ const TumagLanding = () => {
                 "
               >
                 <img
-                  src="/images.jfif"
+                  src="/tumag/images.jfif"
                   alt="TÜMAG"
                   className="h-full w-full object-contain"
                 />
