@@ -1,14 +1,21 @@
 import {
   ArrowRight,
   BadgePercent,
+  BrainCircuit,
   BriefcaseBusiness,
+  CalendarClock,
   CalendarDays,
   CheckCircle2,
+  FileSearch,
   FileText,
   FolderKanban,
+  Gavel,
+  ListChecks,
   LockKeyhole,
   Scale,
   ShieldCheck,
+  Sparkles,
+  TriangleAlert,
   Users,
 } from 'lucide-react';
 
@@ -17,7 +24,46 @@ import {
 } from 'react-router-dom';
 
 const TumagLanding = () => {
-  const features = [
+  const aiFeatures = [
+    {
+      icon: Gavel,
+      title: 'Duruşma Hazırlık Brifi',
+      description:
+        'Dosya kayıtları ve analiz edilmiş belgeler üzerinden duruşma öncesi hazırlık özeti oluşturur.',
+    },
+    {
+      icon: TriangleAlert,
+      title: 'Risk ve Eksik Analizi',
+      description:
+        'Eksik taraf, bilgi, belge ve delilleri görünür hale getirir; dikkat edilmesi gereken noktaları önceliklendirir.',
+    },
+    {
+      icon: CalendarClock,
+      title: 'Kritik Tarihler',
+      description:
+        'Dosya içeriğindeki önemli tarihleri ve yaklaşan işlemleri tek bakışta görmenize yardımcı olur.',
+    },
+    {
+      icon: ListChecks,
+      title: 'Önerilen Sonraki İşlemler',
+      description:
+        'Dosyanın mevcut durumuna göre izlenebilecek sonraki adımları ve hazırlanabilecek görevleri önerir.',
+    },
+    {
+      icon: FileSearch,
+      title: 'Belge Odaklı İnceleme',
+      description:
+        'Analiz edilmiş belgelerden olay, tarih, risk ve eksik bilgi başlıklarını hukuk pratiğine uygun şekilde çıkarır.',
+    },
+    {
+      icon: BrainCircuit,
+      title: 'AI Asistan Çalışma Alanı',
+      description:
+        'Dosyanın bağlamını koruyarak hukuki çalışma sürecinde destek sağlayan ayrı bir yapay zekâ çalışma alanı sunar.',
+    },
+  ];
+
+  const officeFeatures = [
     {
       icon: FolderKanban,
       title: 'Dava ve Dosya Yönetimi',
@@ -62,13 +108,26 @@ const TumagLanding = () => {
       {/* HERO */}
 
       <section className="relative overflow-hidden">
-
         <div
           className="
             pointer-events-none
             absolute
             inset-0
-            bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.18),transparent_35%)]
+            bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.22),transparent_34%)]
+          "
+        />
+
+        <div
+          className="
+            pointer-events-none
+            absolute
+            left-[-120px]
+            top-[360px]
+            h-[360px]
+            w-[360px]
+            rounded-full
+            bg-cyan-500/10
+            blur-[120px]
           "
         />
 
@@ -89,7 +148,6 @@ const TumagLanding = () => {
           {/* NAV */}
 
           <div className="flex items-center justify-between gap-4">
-
             <Link
               to="/"
               className="flex items-center"
@@ -102,7 +160,6 @@ const TumagLanding = () => {
             </Link>
 
             <div className="flex items-center gap-2 sm:gap-3">
-
               <Link
                 to="/login"
                 className="
@@ -145,9 +202,7 @@ const TumagLanding = () => {
                 Kayıt Ol
                 <ArrowRight size={16} />
               </Link>
-
             </div>
-
           </div>
 
           {/* HERO CONTENT */}
@@ -157,14 +212,12 @@ const TumagLanding = () => {
               grid
               items-center
               gap-14
-              pt-20
-              lg:grid-cols-[1.12fr_0.88fr]
-              lg:pt-28
+              pt-16
+              lg:grid-cols-[1.05fr_0.95fr]
+              lg:pt-24
             "
           >
-
             <div>
-
               <div
                 className="
                   inline-flex
@@ -192,20 +245,20 @@ const TumagLanding = () => {
                   max-w-4xl
                   text-4xl
                   font-semibold
-                  leading-[1.08]
+                  leading-[1.06]
                   tracking-[-0.045em]
                   text-white
                   sm:text-5xl
-                  lg:text-[64px]
+                  lg:text-[62px]
                 "
               >
-                Hukuk çalışmalarınızı
+                Dosyanızı sadece yöneten değil,
                 {' '}
                 <span className="text-blue-400">
-                  Derkenar
+                  sizinle birlikte inceleyen
                 </span>
                 {' '}
-                ile yönetin.
+                hukuk büro yönetim sistemi.
               </h1>
 
               <p
@@ -219,10 +272,47 @@ const TumagLanding = () => {
                   sm:leading-8
                 "
               >
-                Dava, müvekkil, görev, toplantı ve belgelerinizi
-                tek çalışma alanında yönetin. TÜMAG üyeleri
-                Derkenar avantajlarından özel indirimle yararlanır.
+                Derkenar; dava ve ofis yönetimini yapay zekâ destekli
+                dosya inceleme, duruşma hazırlığı, risk tespiti ve
+                sonraki işlem önerileriyle aynı çalışma alanında birleştirir.
               </p>
+
+              <div
+                className="
+                  mt-7
+                  flex
+                  flex-wrap
+                  gap-2.5
+                  text-xs
+                  font-semibold
+                  text-slate-300
+                "
+              >
+                {[
+                  'Duruşma hazırlık brifi',
+                  'Risk ve eksik tespiti',
+                  'Kritik tarih analizi',
+                  'Önerilen sonraki işlemler',
+                ].map(
+                  (
+                    item
+                  ) => (
+                    <span
+                      key={item}
+                      className="
+                        rounded-full
+                        border
+                        border-white/[0.08]
+                        bg-white/[0.04]
+                        px-3
+                        py-2
+                      "
+                    >
+                      {item}
+                    </span>
+                  )
+                )}
+              </div>
 
               <div
                 className="
@@ -233,7 +323,6 @@ const TumagLanding = () => {
                   sm:flex-row
                 "
               >
-
                 <Link
                   to="/kayit"
                   className="
@@ -282,7 +371,6 @@ const TumagLanding = () => {
                   <LockKeyhole size={16} />
                   Hesabım Var
                 </Link>
-
               </div>
 
               <div
@@ -296,7 +384,6 @@ const TumagLanding = () => {
                   text-slate-400
                 "
               >
-
                 <span className="flex items-center gap-2">
                   <CheckCircle2
                     size={16}
@@ -320,34 +407,31 @@ const TumagLanding = () => {
                   />
                   Kurulum gerektirmez
                 </span>
-
               </div>
-
             </div>
 
-            {/* DISCOUNT CARD */}
+            {/* AI PREVIEW */}
 
             <div
               className="
                 relative
                 mx-auto
                 w-full
-                max-w-md
+                max-w-xl
                 lg:mx-0
                 lg:ml-auto
               "
             >
-
               <div
                 className="
                   absolute
-                  -inset-1
-                  rounded-[28px]
+                  -inset-4
+                  rounded-[32px]
                   bg-gradient-to-br
-                  from-blue-600/30
-                  via-blue-500/5
+                  from-blue-600/25
+                  via-cyan-500/5
                   to-transparent
-                  blur-xl
+                  blur-2xl
                 "
               />
 
@@ -358,96 +442,543 @@ const TumagLanding = () => {
                   rounded-[26px]
                   border
                   border-white/10
-                  bg-white/[0.055]
-                  p-7
+                  bg-slate-900/85
                   shadow-2xl
                   backdrop-blur-xl
-                  sm:p-8
                 "
               >
-
                 <div
                   className="
                     flex
-                    h-12
-                    w-12
                     items-center
-                    justify-center
-                    rounded-xl
-                    bg-blue-500/15
-                    text-blue-400
+                    justify-between
+                    border-b
+                    border-white/[0.07]
+                    px-5
+                    py-4
                   "
                 >
-                  <BadgePercent size={25} />
-                </div>
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="
+                        flex
+                        h-10
+                        w-10
+                        items-center
+                        justify-center
+                        rounded-xl
+                        bg-blue-500/15
+                        text-blue-400
+                      "
+                    >
+                      <Sparkles size={20} />
+                    </div>
 
-                <p
-                  className="
-                    mt-7
-                    text-xs
-                    font-bold
-                    uppercase
-                    tracking-[0.17em]
-                    text-slate-400
-                  "
-                >
-                  TÜMAG ÜYE AVANTAJI
-                </p>
-
-                <div className="mt-2 flex items-end gap-3">
+                    <div>
+                      <p className="text-sm font-semibold text-white">
+                        Duruşma Hazırlık Brifi
+                      </p>
+                      <p className="mt-0.5 text-xs text-slate-500">
+                        Dosya kayıtları ve analiz edilmiş belgeler
+                      </p>
+                    </div>
+                  </div>
 
                   <span
                     className="
-                      text-6xl
-                      font-semibold
-                      tracking-[-0.06em]
-                      text-white
-                      sm:text-7xl
+                      rounded-full
+                      border
+                      border-emerald-400/20
+                      bg-emerald-500/10
+                      px-2.5
+                      py-1
+                      text-[11px]
+                      font-bold
+                      text-emerald-300
                     "
                   >
-                    %20
+                    AI Destekli
                   </span>
-
-                  <span
-                    className="
-                      pb-2
-                      text-lg
-                      font-semibold
-                      text-blue-400
-                    "
-                  >
-                    indirim
-                  </span>
-
                 </div>
 
-                <p
-                  className="
-                    mt-5
-                    text-sm
-                    leading-6
-                    text-slate-400
-                  "
-                >
-                  TÜMAG üyeleri Derkenar kullanımında özel
-                  yüzde 20 avantajdan yararlanır.
+                <div className="space-y-4 p-5">
+                  <div
+                    className="
+                      rounded-2xl
+                      border
+                      border-rose-400/15
+                      bg-rose-500/[0.07]
+                      p-4
+                    "
+                  >
+                    <div className="flex items-center gap-2">
+                      <Gavel
+                        size={17}
+                        className="text-rose-300"
+                      />
+                      <p className="text-sm font-semibold text-white">
+                        Duruşma Özeti
+                      </p>
+                    </div>
+
+                    <p className="mt-2 text-xs leading-5 text-slate-400">
+                      Dosyanın mevcut durumu, hazırlık seviyesi ve duruşmada
+                      öne çıkan başlıklar tek bir özet altında toplanır.
+                    </p>
+                  </div>
+
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div
+                      className="
+                        rounded-2xl
+                        border
+                        border-amber-400/15
+                        bg-amber-500/[0.06]
+                        p-4
+                      "
+                    >
+                      <div className="flex items-center gap-2">
+                        <TriangleAlert
+                          size={16}
+                          className="text-amber-300"
+                        />
+                        <p className="text-sm font-semibold text-white">
+                          Riskler
+                        </p>
+                      </div>
+
+                      <p className="mt-2 text-xs leading-5 text-slate-400">
+                        Eksik taraf bilgileri, analiz edilmemiş belgeler ve
+                        hazırlık eksikleri önceliklendirilir.
+                      </p>
+                    </div>
+
+                    <div
+                      className="
+                        rounded-2xl
+                        border
+                        border-blue-400/15
+                        bg-blue-500/[0.06]
+                        p-4
+                      "
+                    >
+                      <div className="flex items-center gap-2">
+                        <ListChecks
+                          size={16}
+                          className="text-blue-300"
+                        />
+                        <p className="text-sm font-semibold text-white">
+                          Sonraki İşlemler
+                        </p>
+                      </div>
+
+                      <p className="mt-2 text-xs leading-5 text-slate-400">
+                        Dosyanın durumuna göre yapılabilecek işlemler ve
+                        hazırlanabilecek görevler önerilir.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div
+                    className="
+                      rounded-2xl
+                      border
+                      border-white/[0.07]
+                      bg-white/[0.025]
+                      p-4
+                    "
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <p className="text-xs font-medium text-slate-500">
+                          TÜMAG ÜYE AVANTAJI
+                        </p>
+
+                        <p className="mt-1 text-lg font-semibold text-white">
+                          Derkenar kullanımında %20 indirim
+                        </p>
+                      </div>
+
+                      <BadgePercent
+                        size={30}
+                        className="shrink-0 text-blue-400"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* AI SECTION */}
+
+      <section
+        className="
+          border-y
+          border-white/[0.06]
+          bg-white/[0.018]
+        "
+      >
+        <div
+          className="
+            mx-auto
+            max-w-7xl
+            px-5
+            py-20
+            sm:px-8
+            lg:px-10
+            lg:py-24
+          "
+        >
+          <div
+            className="
+              grid
+              gap-10
+              lg:grid-cols-[0.82fr_1.18fr]
+              lg:items-end
+            "
+          >
+            <div>
+              <div
+                className="
+                  inline-flex
+                  items-center
+                  gap-2
+                  rounded-full
+                  border
+                  border-blue-400/15
+                  bg-blue-500/[0.08]
+                  px-3
+                  py-1.5
+                  text-xs
+                  font-bold
+                  text-blue-300
+                "
+              >
+                <Sparkles size={14} />
+                DERKENAR AI
+              </div>
+
+              <h2
+                className="
+                  mt-5
+                  text-3xl
+                  font-semibold
+                  tracking-[-0.04em]
+                  text-white
+                  sm:text-4xl
+                "
+              >
+                Dosyanın içindeki kritik noktaları görünür hale getirin.
+              </h2>
+            </div>
+
+            <p
+              className="
+                max-w-2xl
+                text-base
+                leading-7
+                text-slate-400
+                lg:ml-auto
+              "
+            >
+              Yapay zekâ katmanı yalnızca metin üretmek için değil;
+              dosyanın mevcut durumunu, eksiklerini, risklerini ve
+              hazırlanması gereken sonraki adımları daha hızlı görmeniz
+              için çalışma akışının içine yerleştirildi.
+            </p>
+          </div>
+
+          <div
+            className="
+              mt-12
+              grid
+              gap-4
+              md:grid-cols-2
+              lg:grid-cols-3
+            "
+          >
+            {aiFeatures.map(
+              (
+                feature
+              ) => {
+                const Icon =
+                  feature.icon;
+
+                return (
+                  <div
+                    key={
+                      feature.title
+                    }
+                    className="
+                      rounded-2xl
+                      border
+                      border-white/[0.07]
+                      bg-slate-900/50
+                      p-6
+                      transition
+                      hover:border-blue-500/25
+                      hover:bg-slate-900/80
+                    "
+                  >
+                    <div
+                      className="
+                        flex
+                        h-11
+                        w-11
+                        items-center
+                        justify-center
+                        rounded-xl
+                        bg-blue-500/10
+                        text-blue-400
+                      "
+                    >
+                      <Icon size={21} />
+                    </div>
+
+                    <h3
+                      className="
+                        mt-5
+                        text-base
+                        font-semibold
+                        text-white
+                      "
+                    >
+                      {feature.title}
+                    </h3>
+
+                    <p
+                      className="
+                        mt-2
+                        text-sm
+                        leading-6
+                        text-slate-400
+                      "
+                    >
+                      {feature.description}
+                    </p>
+                  </div>
+                );
+              }
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* AI WORKFLOW */}
+
+      <section>
+        <div
+          className="
+            mx-auto
+            max-w-7xl
+            px-5
+            py-20
+            sm:px-8
+            lg:px-10
+            lg:py-24
+          "
+        >
+          <div
+            className="
+              grid
+              gap-5
+              lg:grid-cols-[1fr_0.95fr]
+            "
+          >
+            <div
+              className="
+                rounded-[26px]
+                border
+                border-white/[0.07]
+                bg-white/[0.025]
+                p-6
+                sm:p-8
+              "
+            >
+              <p
+                className="
+                  text-xs
+                  font-bold
+                  uppercase
+                  tracking-[0.17em]
+                  text-blue-400
+                "
+              >
+                DURUŞMA ÖNCESİ
+              </p>
+
+              <h2
+                className="
+                  mt-3
+                  text-3xl
+                  font-semibold
+                  tracking-[-0.04em]
+                  text-white
+                "
+              >
+                Duruşmaya girmeden önce dosyanın fotoğrafını görün.
+              </h2>
+
+              <div className="mt-8 space-y-3">
+                {[
+                  {
+                    title: 'Dosyanın mevcut durumu',
+                    text: 'Hazırlık seviyesi, taraf bilgileri ve analiz edilmiş belgeler birlikte değerlendirilir.',
+                  },
+                  {
+                    title: 'Duruşmada dikkat edilecekler',
+                    text: 'Kritik, yüksek ve orta öncelikli konular ayrı başlıklarda görünür hale getirilir.',
+                  },
+                  {
+                    title: 'Eksik bilgi ve deliller',
+                    text: 'Dosyada bulunmayan veya doğrulanması gereken kayıtlar ayrı olarak listelenir.',
+                  },
+                  {
+                    title: 'Önerilen işlemler',
+                    text: 'Hazırlanabilecek görevler ve takip edilebilecek sonraki adımlar kullanıcıya sunulur.',
+                  },
+                ].map(
+                  (
+                    item,
+                    index
+                  ) => (
+                    <div
+                      key={
+                        item.title
+                      }
+                      className="
+                        flex
+                        gap-4
+                        rounded-2xl
+                        border
+                        border-white/[0.06]
+                        bg-slate-950/50
+                        p-4
+                      "
+                    >
+                      <div
+                        className="
+                          flex
+                          h-8
+                          w-8
+                          shrink-0
+                          items-center
+                          justify-center
+                          rounded-lg
+                          bg-blue-500/10
+                          text-xs
+                          font-bold
+                          text-blue-300
+                        "
+                      >
+                        {index + 1}
+                      </div>
+
+                      <div>
+                        <p className="text-sm font-semibold text-white">
+                          {item.title}
+                        </p>
+
+                        <p className="mt-1 text-sm leading-6 text-slate-400">
+                          {item.text}
+                        </p>
+                      </div>
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+
+            <div
+              className="
+                rounded-[26px]
+                border
+                border-blue-500/15
+                bg-gradient-to-br
+                from-blue-600/12
+                via-white/[0.02]
+                to-transparent
+                p-6
+                sm:p-8
+              "
+            >
+              <div
+                className="
+                  flex
+                  h-12
+                  w-12
+                  items-center
+                  justify-center
+                  rounded-xl
+                  bg-blue-500/15
+                  text-blue-400
+                "
+              >
+                <BrainCircuit size={24} />
+              </div>
+
+              <p
+                className="
+                  mt-7
+                  text-xs
+                  font-bold
+                  uppercase
+                  tracking-[0.17em]
+                  text-blue-400
+                "
+              >
+                AI ASİSTAN
+              </p>
+
+              <h2
+                className="
+                  mt-3
+                  text-3xl
+                  font-semibold
+                  tracking-[-0.04em]
+                  text-white
+                "
+              >
+                Dosya bağlamını çalışma alanından ayırmadan inceleyin.
+              </h2>
+
+              <p
+                className="
+                  mt-4
+                  text-sm
+                  leading-7
+                  text-slate-400
+                "
+              >
+                Önemli tarihler, riskler, eksik bilgiler ve önerilen
+                işlemler aynı hukuki çalışma alanında toplanır. Böylece
+                yapay zekâ, ayrı bir sohbet kutusu olmaktan çıkıp
+                dosya çalışma sürecinin parçasına dönüşür.
+              </p>
+
+              <div
+                className="
+                  mt-7
+                  rounded-2xl
+                  border
+                  border-white/[0.07]
+                  bg-slate-950/55
+                  p-5
+                "
+              >
+                <p className="text-xs font-bold text-slate-500">
+                  ÖRNEK ÇIKTILAR
                 </p>
 
-                <div
-                  className="
-                    my-7
-                    h-px
-                    bg-white/[0.08]
-                  "
-                />
-
-                <div className="space-y-4">
-
+                <div className="mt-4 space-y-3">
                   {[
-                    'Dava ve müvekkil yönetimi',
-                    'Görev ve toplantı takibi',
-                    'Belge ve dosya organizasyonu',
-                    'Ofis içi çalışma yönetimi',
+                    'Önemli tarihlerin çıkarılması',
+                    'Risk ve eksik bilgi başlıklarının belirlenmesi',
+                    'Belge ve delil eksiklerinin görünür hale getirilmesi',
+                    'Sonraki işlemler için öneri oluşturulması',
                   ].map(
                     (
                       item
@@ -463,7 +994,7 @@ const TumagLanding = () => {
                         "
                       >
                         <CheckCircle2
-                          size={17}
+                          size={16}
                           className="shrink-0 text-blue-400"
                         />
 
@@ -471,20 +1002,14 @@ const TumagLanding = () => {
                       </div>
                     )
                   )}
-
                 </div>
-
               </div>
-
             </div>
-
           </div>
-
         </div>
-
       </section>
 
-      {/* FEATURES */}
+      {/* OFFICE FEATURES */}
 
       <section
         className="
@@ -493,7 +1018,6 @@ const TumagLanding = () => {
           bg-white/[0.018]
         "
       >
-
         <div
           className="
             mx-auto
@@ -505,9 +1029,7 @@ const TumagLanding = () => {
             lg:py-24
           "
         >
-
           <div className="max-w-2xl">
-
             <p
               className="
                 text-xs
@@ -517,7 +1039,7 @@ const TumagLanding = () => {
                 text-blue-400
               "
             >
-              DERKENAR
+              HUKUK BÜRO YÖNETİMİ
             </p>
 
             <h2
@@ -530,7 +1052,7 @@ const TumagLanding = () => {
                 sm:text-4xl
               "
             >
-              Hukuki işlerinizi tek çalışma alanında toplayın.
+              Yapay zekâ güçlü olsun; ofis yönetimi de eksik kalmasın.
             </h2>
 
             <p
@@ -541,10 +1063,10 @@ const TumagLanding = () => {
                 text-slate-400
               "
             >
-              Günlük hukuk pratiğinde ihtiyaç duyduğunuz temel
-              süreçleri farklı araçlara dağılmadan yönetin.
+              Derkenar, yapay zekâ özelliklerini günlük hukuk bürosu
+              işleyişinden ayırmadan dava, müvekkil, belge, görev ve
+              takvim yönetimiyle birlikte sunar.
             </p>
-
           </div>
 
           <div
@@ -556,7 +1078,7 @@ const TumagLanding = () => {
               lg:grid-cols-3
             "
           >
-            {features.map(
+            {officeFeatures.map(
               (
                 feature
               ) => {
@@ -579,7 +1101,6 @@ const TumagLanding = () => {
                       hover:bg-white/[0.04]
                     "
                   >
-
                     <div
                       className="
                         flex
@@ -616,18 +1137,15 @@ const TumagLanding = () => {
                     >
                       {feature.description}
                     </p>
-
                   </div>
                 );
               }
             )}
           </div>
-
         </div>
-
       </section>
 
-      {/* CTA */}
+      {/* TUMAG OFFER */}
 
       <section>
         <div
@@ -641,130 +1159,200 @@ const TumagLanding = () => {
             lg:py-28
           "
         >
-
           <div
             className="
+              grid
               overflow-hidden
-              rounded-[28px]
+              rounded-[30px]
               border
               border-blue-500/15
               bg-gradient-to-br
               from-blue-600/15
               via-white/[0.025]
               to-transparent
-              px-6
-              py-12
-              text-center
-              sm:px-10
-              sm:py-16
+              lg:grid-cols-[1fr_auto]
+              lg:items-center
             "
           >
-
-            <div
-              className="
-                mx-auto
-                flex
-                h-12
-                w-12
-                items-center
-                justify-center
-                rounded-xl
-                bg-blue-500/15
-                text-blue-400
-              "
-            >
-              <Scale size={24} />
-            </div>
-
-            <h2
-              className="
-                mx-auto
-                mt-6
-                max-w-3xl
-                text-3xl
-                font-semibold
-                tracking-[-0.04em]
-                text-white
-                sm:text-4xl
-              "
-            >
-              TÜMAG üyelerine özel avantajla Derkenar&apos;a katılın.
-            </h2>
-
-            <p
-              className="
-                mx-auto
-                mt-4
-                max-w-xl
-                text-sm
-                leading-6
-                text-slate-400
-                sm:text-base
-              "
-            >
-              Hesabınızı oluşturun, e-posta adresinizi doğrulayın
-              ve çalışma alanınızı kullanmaya başlayın.
-            </p>
-
-            <div
-              className="
-                mt-8
-                flex
-                flex-col
-                justify-center
-                gap-3
-                sm:flex-row
-              "
-            >
-
-              <Link
-                to="/kayit"
+            <div className="px-6 py-12 sm:px-10 sm:py-14">
+              <div
                 className="
                   inline-flex
-                  h-12
                   items-center
-                  justify-center
                   gap-2
-                  rounded-xl
-                  bg-blue-600
-                  px-6
-                  text-sm
+                  rounded-full
+                  bg-blue-500/10
+                  px-3
+                  py-1.5
+                  text-xs
                   font-bold
-                  text-white
-                  transition
-                  hover:bg-blue-500
+                  text-blue-300
                 "
               >
-                Ücretsiz Hesap Oluştur
-                <ArrowRight size={17} />
-              </Link>
+                <Scale size={14} />
+                TÜMAG ÜYELERİNE ÖZEL
+              </div>
 
-              <Link
-                to="/login"
+              <h2
                 className="
-                  inline-flex
+                  mt-5
+                  max-w-3xl
+                  text-3xl
+                  font-semibold
+                  tracking-[-0.04em]
+                  text-white
+                  sm:text-4xl
+                "
+              >
+                Derkenar&apos;ın hukuk büro yönetimi ve AI özelliklerine
+                TÜMAG üyelerine özel avantajla erişin.
+              </h2>
+
+              <p
+                className="
+                  mt-4
+                  max-w-2xl
+                  text-sm
+                  leading-7
+                  text-slate-400
+                  sm:text-base
+                "
+              >
+                Hesabınızı oluşturun, e-posta adresinizi doğrulayın
+                ve Derkenar çalışma alanınızı kullanmaya başlayın.
+              </p>
+
+              <div
+                className="
+                  mt-8
+                  flex
+                  flex-col
+                  gap-3
+                  sm:flex-row
+                "
+              >
+                <Link
+                  to="/kayit"
+                  className="
+                    inline-flex
+                    h-12
+                    items-center
+                    justify-center
+                    gap-2
+                    rounded-xl
+                    bg-blue-600
+                    px-6
+                    text-sm
+                    font-bold
+                    text-white
+                    transition
+                    hover:bg-blue-500
+                  "
+                >
+                  TÜMAG Üyesi Olarak Kayıt Ol
+                  <ArrowRight size={17} />
+                </Link>
+
+                <Link
+                  to="/login"
+                  className="
+                    inline-flex
+                    h-12
+                    items-center
+                    justify-center
+                    rounded-xl
+                    border
+                    border-white/10
+                    bg-white/[0.03]
+                    px-6
+                    text-sm
+                    font-semibold
+                    text-white
+                    transition
+                    hover:bg-white/[0.07]
+                  "
+                >
+                  Giriş Yap
+                </Link>
+              </div>
+            </div>
+
+            <div
+              className="
+                border-t
+                border-white/[0.07]
+                px-8
+                py-10
+                text-center
+                lg:border-l
+                lg:border-t-0
+                lg:px-14
+                lg:py-16
+              "
+            >
+              <p
+                className="
+                  text-xs
+                  font-bold
+                  uppercase
+                  tracking-[0.17em]
+                  text-slate-400
+                "
+              >
+                TÜMAG ÜYE AVANTAJI
+              </p>
+
+              <div
+                className="
+                  mt-2
+                  flex
+                  items-end
+                  justify-center
+                  gap-3
+                "
+              >
+                <span
+                  className="
+                    text-6xl
+                    font-semibold
+                    tracking-[-0.06em]
+                    text-white
+                    sm:text-7xl
+                  "
+                >
+                  %20
+                </span>
+
+                <span
+                  className="
+                    pb-2
+                    text-lg
+                    font-semibold
+                    text-blue-400
+                  "
+                >
+                  indirim
+                </span>
+              </div>
+
+              <div
+                className="
+                  mx-auto
+                  mt-5
+                  flex
                   h-12
+                  w-12
                   items-center
                   justify-center
                   rounded-xl
-                  border
-                  border-white/10
-                  bg-white/[0.03]
-                  px-6
-                  text-sm
-                  font-semibold
-                  text-white
-                  transition
-                  hover:bg-white/[0.07]
+                  bg-blue-500/15
+                  text-blue-400
                 "
               >
-                Giriş Yap
-              </Link>
-
+                <BadgePercent size={25} />
+              </div>
             </div>
-
           </div>
-
         </div>
       </section>
 
@@ -794,7 +1382,6 @@ const TumagLanding = () => {
             lg:px-10
           "
         >
-
           <p>
             © {new Date().getFullYear()} Derkenar
           </p>
@@ -802,7 +1389,6 @@ const TumagLanding = () => {
           <p>
             TÜMAG üyelerine özel kullanım avantajı.
           </p>
-
         </div>
       </footer>
 
