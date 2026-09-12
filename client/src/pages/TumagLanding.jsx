@@ -238,9 +238,7 @@ const TumagLanding = () => {
               >
                 TÜMAG × DERKENAR
               </p>
-              <p className="mt-1 text-sm font-medium text-slate-300">
-                TÜMAG üyelerine özel iş birliği
-              </p>
+             
             </div>
           </div>
 
