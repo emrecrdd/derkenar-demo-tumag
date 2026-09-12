@@ -95,7 +95,7 @@ const TumagLanding = () => {
               className="flex items-center"
             >
               <img
-                src="/derkenar-logo.png"
+                src="/favicon.svg"
                 alt="Derkenar"
                 className="h-auto w-[190px] object-contain sm:w-[230px]"
               />
