@@ -1009,6 +1009,329 @@ const TumagLanding = () => {
         </div>
       </section>
 
+
+      {/* REAL PRODUCT SCREENS */}
+
+      <section
+        className="
+          border-y
+          border-white/[0.06]
+          bg-white/[0.018]
+        "
+      >
+        <div
+          className="
+            mx-auto
+            max-w-7xl
+            px-5
+            py-20
+            sm:px-8
+            lg:px-10
+            lg:py-24
+          "
+        >
+          <div className="mx-auto max-w-3xl text-center">
+            <div
+              className="
+                inline-flex
+                items-center
+                gap-2
+                rounded-full
+                border
+                border-blue-400/15
+                bg-blue-500/[0.08]
+                px-3
+                py-1.5
+                text-xs
+                font-bold
+                text-blue-300
+              "
+            >
+              <Sparkles size={14} />
+              GERÇEK DERKENAR EKRANLARI
+            </div>
+
+            <h2
+              className="
+                mt-5
+                text-3xl
+                font-semibold
+                tracking-[-0.04em]
+                text-white
+                sm:text-4xl
+              "
+            >
+              Yapay zekâ anlatmıyor; dosyanın içinde çalışıyor.
+            </h2>
+
+            <p
+              className="
+                mx-auto
+                mt-4
+                max-w-2xl
+                text-base
+                leading-7
+                text-slate-400
+              "
+            >
+              Aşağıdaki ekranlar Derkenar&apos;ın gerçek çalışma alanından.
+              Duruşma hazırlığı, risk analizi ve AI Asistan çıktıları
+              doğrudan dosya yönetiminin içinde üretilir.
+            </p>
+          </div>
+
+          <div className="mt-14 space-y-8">
+
+            {/* SCREEN 1 */}
+
+            <div
+              className="
+                grid
+                overflow-hidden
+                rounded-[28px]
+                border
+                border-white/[0.08]
+                bg-slate-900/60
+                lg:grid-cols-[0.9fr_1.1fr]
+                lg:items-center
+              "
+            >
+              <div className="p-6 sm:p-8 lg:p-10">
+                <div
+                  className="
+                    flex
+                    h-11
+                    w-11
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-rose-500/10
+                    text-rose-300
+                  "
+                >
+                  <Gavel size={22} />
+                </div>
+
+                <p
+                  className="
+                    mt-6
+                    text-xs
+                    font-bold
+                    uppercase
+                    tracking-[0.17em]
+                    text-rose-300
+                  "
+                >
+                  DURUŞMA HAZIRLIK BRİFİ
+                </p>
+
+                <h3
+                  className="
+                    mt-3
+                    text-2xl
+                    font-semibold
+                    tracking-[-0.03em]
+                    text-white
+                    sm:text-3xl
+                  "
+                >
+                  Duruşma öncesi dosyanın mevcut durumunu tek ekranda görün.
+                </h3>
+
+                <p className="mt-4 text-sm leading-7 text-slate-400">
+                  Dosya kayıtları ve analiz edilmiş belgeler üzerinden
+                  duruşma özeti, taraflar, hazırlık durumu ve dikkat edilmesi
+                  gereken başlıklar birlikte sunulur.
+                </p>
+              </div>
+
+              <div className="border-t border-white/[0.07] lg:border-l lg:border-t-0">
+                <img
+                  src="/tumag/ai-durusma.jpg"
+                  alt="Derkenar Duruşma Hazırlık Brifi ekranı"
+                  className="
+                    h-full
+                    w-full
+                    object-cover
+                    object-left-top
+                  "
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+            {/* SCREEN 2 */}
+
+            <div
+              className="
+                grid
+                overflow-hidden
+                rounded-[28px]
+                border
+                border-white/[0.08]
+                bg-slate-900/60
+                lg:grid-cols-[1.1fr_0.9fr]
+                lg:items-center
+              "
+            >
+              <div
+                className="
+                  order-2
+                  border-t
+                  border-white/[0.07]
+                  lg:order-1
+                  lg:border-r
+                  lg:border-t-0
+                "
+              >
+                <img
+                  src="/tumag/ai-riskler.jpg"
+                  alt="Derkenar yapay zekâ risk analizi ekranı"
+                  className="
+                    h-full
+                    w-full
+                    object-cover
+                    object-left-top
+                  "
+                  loading="lazy"
+                />
+              </div>
+
+              <div className="order-1 p-6 sm:p-8 lg:order-2 lg:p-10">
+                <div
+                  className="
+                    flex
+                    h-11
+                    w-11
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-amber-500/10
+                    text-amber-300
+                  "
+                >
+                  <TriangleAlert size={22} />
+                </div>
+
+                <p
+                  className="
+                    mt-6
+                    text-xs
+                    font-bold
+                    uppercase
+                    tracking-[0.17em]
+                    text-amber-300
+                  "
+                >
+                  RİSK VE EKSİK ANALİZİ
+                </p>
+
+                <h3
+                  className="
+                    mt-3
+                    text-2xl
+                    font-semibold
+                    tracking-[-0.03em]
+                    text-white
+                    sm:text-3xl
+                  "
+                >
+                  Dosyadaki eksikleri öncelik seviyeleriyle görün.
+                </h3>
+
+                <p className="mt-4 text-sm leading-7 text-slate-400">
+                  Karşı taraf bilgisi, analiz edilmemiş belge, hazırlık
+                  eksikliği ve benzeri riskler kritik, yüksek veya orta
+                  öncelikle görünür hale getirilir.
+                </p>
+              </div>
+            </div>
+
+            {/* SCREEN 3 */}
+
+            <div
+              className="
+                grid
+                overflow-hidden
+                rounded-[28px]
+                border
+                border-blue-500/15
+                bg-gradient-to-br
+                from-blue-600/10
+                via-slate-900/70
+                to-slate-900/70
+                lg:grid-cols-[0.9fr_1.1fr]
+                lg:items-center
+              "
+            >
+              <div className="p-6 sm:p-8 lg:p-10">
+                <div
+                  className="
+                    flex
+                    h-11
+                    w-11
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-blue-500/15
+                    text-blue-300
+                  "
+                >
+                  <BrainCircuit size={22} />
+                </div>
+
+                <p
+                  className="
+                    mt-6
+                    text-xs
+                    font-bold
+                    uppercase
+                    tracking-[0.17em]
+                    text-blue-300
+                  "
+                >
+                  AI ASİSTAN
+                </p>
+
+                <h3
+                  className="
+                    mt-3
+                    text-2xl
+                    font-semibold
+                    tracking-[-0.03em]
+                    text-white
+                    sm:text-3xl
+                  "
+                >
+                  Önemli tarihleri, riskleri ve önerilen işlemleri dosya bağlamında inceleyin.
+                </h3>
+
+                <p className="mt-4 text-sm leading-7 text-slate-400">
+                  AI Asistan; dosyadaki verilerden önemli tarihleri,
+                  eksik bilgileri, riskleri ve izlenebilecek sonraki
+                  işlemleri çalışma alanı içinde bir araya getirir.
+                </p>
+              </div>
+
+              <div className="border-t border-white/[0.07] lg:border-l lg:border-t-0">
+                <img
+                  src="/tumag/ai-asistan.jpg"
+                  alt="Derkenar AI Asistan ekranı"
+                  className="
+                    h-full
+                    w-full
+                    object-cover
+                    object-left-top
+                  "
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       {/* OFFICE FEATURES */}
 
       <section
