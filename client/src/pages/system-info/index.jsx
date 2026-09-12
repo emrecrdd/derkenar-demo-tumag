@@ -6,6 +6,7 @@ import {
 
 import {
   AlertTriangle,
+  ArrowRight,
   BadgeCheck,
   Building2,
   CalendarDays,
@@ -191,6 +192,14 @@ const SystemInfo = () => {
 
       return `https://wa.me/${number}?text=${text}`;
     }, [officeName]);
+
+  const demoWhatsappUrl =
+    useMemo(() => {
+      const number = String(SUPPORT_WHATSAPP || '').replace(/\D/g, '');
+      if (!number) return null;
+      const text = encodeURIComponent('Merhaba, Derkenar için 1 haftalık demo erişimi talep ediyorum.');
+      return `https://wa.me/${number}?text=${text}`;
+    }, []);
 
   const statusTone =
     getStatusTone(
@@ -434,6 +443,45 @@ const SystemInfo = () => {
               label="Kalan Kullanıcı Hakkı"
               value={license?.availableSeats ?? '—'}
             />
+          </div>
+        </Card.Body>
+      </Card>
+
+      <Card>
+        <Card.Body className="p-0">
+          <SectionHeader
+            icon={Sparkles}
+            title="1 Haftalık Demo"
+            description="Derkenar’ı gerçek kullanım senaryolarıyla deneyin."
+            tone="emerald"
+          />
+
+          <div className="flex flex-col gap-5 px-6 py-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="max-w-2xl">
+              <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                Derkenar’ı daha kapsamlı denemek ister misiniz?
+              </p>
+              <p className="mt-1.5 text-xs leading-5 text-gray-500 dark:text-slate-400">
+                1 haftalık demo erişimi için bizimle iletişime geçin. Demo sonunda satın alma zorunluluğu bulunmaz.
+              </p>
+              <p className="mt-2 text-xs font-semibold text-amber-600 dark:text-amber-300">
+                TÜMAG üyelerine ücretli planlarda %20 indirim avantajı.
+              </p>
+            </div>
+
+            {demoWhatsappUrl ? (
+              <a href={demoWhatsappUrl} target="_blank" rel="noreferrer" className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700">
+                <MessageCircle size={17} />
+                1 Haftalık Demo Talep Et
+                <ArrowRight size={15} />
+              </a>
+            ) : (
+              <a href={`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('Derkenar 1 Haftalık Demo Talebi')}`} className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">
+                <Mail size={17} />
+                1 Haftalık Demo Talep Et
+                <ArrowRight size={15} />
+              </a>
+            )}
           </div>
         </Card.Body>
       </Card>
