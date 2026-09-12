@@ -11,7 +11,6 @@ import {
   FolderKanban,
   Gavel,
   ListChecks,
-  LockKeyhole,
   Scale,
   ShieldCheck,
   Sparkles,
@@ -148,36 +147,61 @@ const TumagLanding = () => {
           {/* NAV */}
 
           <div className="flex items-center justify-between gap-4">
-            <Link
-              to="/"
-              className="flex items-center"
-            >
-              <img
-                src="/favicon.svg"
-                alt="Derkenar"
-                className="h-auto w-[190px] object-contain sm:w-[230px]"
-              />
-            </Link>
-
-            <div className="flex items-center gap-2 sm:gap-3">
+            <div className="flex min-w-0 items-center gap-3 sm:gap-4">
               <Link
-                to="/login"
+                to="/"
+                className="flex shrink-0 items-center"
+              >
+                <img
+                  src="/favicon.svg"
+                  alt="Derkenar"
+                  className="h-auto w-[150px] object-contain sm:w-[190px]"
+                />
+              </Link>
+
+              <span className="text-lg font-light text-slate-600 sm:text-xl">
+                ×
+              </span>
+
+              <div
                 className="
-                  hidden
-                  rounded-lg
-                  px-4
-                  py-2.5
-                  text-sm
-                  font-semibold
-                  text-slate-300
-                  transition
-                  hover:bg-white/[0.06]
-                  hover:text-white
-                  sm:inline-flex
+                  flex
+                  h-12
+                  w-12
+                  shrink-0
+                  items-center
+                  justify-center
+                  overflow-hidden
+                  rounded-xl
+                  border
+                  border-white/10
+                  bg-white
+                  p-1
+                  shadow-lg
+                  shadow-black/10
+                  sm:h-14
+                  sm:w-14
                 "
               >
-                Giriş Yap
-              </Link>
+                <img
+                  src="/images.jfif"
+                  alt="TÜMAG"
+                  className="h-full w-full object-contain"
+                />
+              </div>
+
+              <div className="hidden min-w-0 sm:block">
+                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">
+                  TÜMAG × DERKENAR
+                </p>
+                <p className="mt-0.5 text-xs font-medium text-slate-300">
+                  Üyelere özel avantaj
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 sm:gap-3">
+             
 
               <Link
                 to="/kayit"
@@ -343,35 +367,15 @@ const TumagLanding = () => {
                     hover:bg-blue-500
                   "
                 >
-                  TÜMAG Üyesi Olarak Kayıt Ol
+                  Ücretsiz Hesap Oluştur
                   <ArrowRight size={17} />
                 </Link>
-
-                <Link
-                  to="/login"
-                  className="
-                    inline-flex
-                    h-12
-                    items-center
-                    justify-center
-                    gap-2
-                    rounded-xl
-                    border
-                    border-white/10
-                    bg-white/[0.04]
-                    px-6
-                    text-sm
-                    font-semibold
-                    text-slate-200
-                    transition
-                    hover:border-white/20
-                    hover:bg-white/[0.08]
-                  "
-                >
-                  <LockKeyhole size={16} />
-                  Hesabım Var
-                </Link>
               </div>
+
+              <p className="mt-3 max-w-xl text-xs leading-5 text-slate-500">
+                Kayıt işlemi herhangi bir satın alma başlatmaz.
+                Ücretli plan seçimi daha sonra yapılır.
+              </p>
 
               <div
                 className="
@@ -595,7 +599,7 @@ const TumagLanding = () => {
                         </p>
 
                         <p className="mt-1 text-lg font-semibold text-white">
-                          Derkenar kullanımında %20 indirim
+                          Ücretli planlarda %20 indirim
                         </p>
                       </div>
 
@@ -1498,22 +1502,46 @@ const TumagLanding = () => {
             "
           >
             <div className="px-6 py-12 sm:px-10 sm:py-14">
-              <div
-                className="
-                  inline-flex
-                  items-center
-                  gap-2
-                  rounded-full
-                  bg-blue-500/10
-                  px-3
-                  py-1.5
-                  text-xs
-                  font-bold
-                  text-blue-300
-                "
-              >
-                <Scale size={14} />
-                TÜMAG ÜYELERİNE ÖZEL
+              <div className="flex flex-wrap items-center gap-3">
+                <div
+                  className="
+                    flex
+                    h-11
+                    w-11
+                    items-center
+                    justify-center
+                    overflow-hidden
+                    rounded-xl
+                    border
+                    border-white/10
+                    bg-white
+                    p-1
+                  "
+                >
+                  <img
+                    src="/images.jfif"
+                    alt="TÜMAG"
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+
+                <div
+                  className="
+                    inline-flex
+                    items-center
+                    gap-2
+                    rounded-full
+                    bg-blue-500/10
+                    px-3
+                    py-1.5
+                    text-xs
+                    font-bold
+                    text-blue-300
+                  "
+                >
+                  <Scale size={14} />
+                  TÜMAG ÜYELERİNE ÖZEL
+                </div>
               </div>
 
               <h2
@@ -1541,8 +1569,9 @@ const TumagLanding = () => {
                   sm:text-base
                 "
               >
-                Hesabınızı oluşturun, e-posta adresinizi doğrulayın
-                ve Derkenar çalışma alanınızı kullanmaya başlayın.
+                Hesabınızı ücretsiz oluşturun ve e-posta adresinizi
+                doğrulayın. Kayıt işlemi satın alma anlamına gelmez;
+                ücretli plan seçimi daha sonra yapılır.
               </p>
 
               <div
@@ -1572,30 +1601,8 @@ const TumagLanding = () => {
                     hover:bg-blue-500
                   "
                 >
-                  TÜMAG Üyesi Olarak Kayıt Ol
+                  Ücretsiz Hesap Oluştur
                   <ArrowRight size={17} />
-                </Link>
-
-                <Link
-                  to="/login"
-                  className="
-                    inline-flex
-                    h-12
-                    items-center
-                    justify-center
-                    rounded-xl
-                    border
-                    border-white/10
-                    bg-white/[0.03]
-                    px-6
-                    text-sm
-                    font-semibold
-                    text-white
-                    transition
-                    hover:bg-white/[0.07]
-                  "
-                >
-                  Giriş Yap
                 </Link>
               </div>
             </div>
